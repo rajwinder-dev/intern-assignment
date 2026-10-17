@@ -1,4 +1,5 @@
 import { documentCodes } from '@/data/e-sanchit-codes'
+import { ports } from '@/data/ports'
 import { quantityCodes } from '@/data/quantity-code'
 import schemeCodes from '@/data/scheme-codes'
 import { stateOptions } from '@/data/states'
@@ -38,7 +39,6 @@ import {
   invoiceTotal,
   lineTotal,
   portCountry,
-  ports,
   SavedBill,
   ShippingBillFormValues
 } from './model'

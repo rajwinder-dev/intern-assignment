@@ -1,5 +1,6 @@
+import { loadingPorts, PortOption, ports } from '@/data/ports'
 import { getDemoData } from './demo-store'
-import { Branch, Business, Exporter, loadingPorts, PortOption, ports } from './model'
+import { Branch, Business, Exporter } from './model'
 
 const MOCK_DELAY_MS = 250
 

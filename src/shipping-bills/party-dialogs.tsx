@@ -1,5 +1,6 @@
 import { saveBranch, saveBusiness, saveExporter } from '@/shipping-bills/demo-store'
-import { Branch, Business, countries, Exporter } from '@/shipping-bills/model'
+import { countries } from '@/data/countries'
+import { Branch, Business, Exporter } from '@/shipping-bills/model'
 import { InferType, s, useForm } from 'core/form'
 import { Form, SubmitButton } from 'core/form/components'
 import { toast } from 'core/toast-manager'
