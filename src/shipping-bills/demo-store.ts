@@ -161,58 +161,6 @@ export function saveBranch(
   return record
 }
 
-export function deleteParty(kind: 'exporter' | 'business', id: number) {
-  const inUse = snapshot.bills.some((bill) =>
-    kind === 'exporter'
-      ? bill.values.exporterId === String(id)
-      : bill.values.consigneeId === String(id) ||
-      bill.values.invoices.some(
-        (invoice) =>
-          invoice.buyerId === String(id) ||
-          invoice.thirdPartyId === String(id) ||
-          invoice.items.some((item) => item.itemThirdPartyId === String(id))
-      )
-  )
-  if (inUse) return false
-  publish({
-    ...snapshot,
-    exporters: kind === 'exporter' ? snapshot.exporters.filter((record) => record.id !== id) : snapshot.exporters,
-    businesses: kind === 'business' ? snapshot.businesses.filter((record) => record.id !== id) : snapshot.businesses
-  })
-  return true
-}
-
-export function deleteBranch(kind: 'exporter' | 'business', ownerId: number, id: number) {
-  const inUse = snapshot.bills.some((bill) =>
-    kind === 'exporter'
-      ? bill.values.exporterBranchId === String(id)
-      : bill.values.consigneeBranchId === String(id) ||
-      bill.values.invoices.some(
-        (invoice) =>
-          invoice.buyerBranchId === String(id) ||
-          invoice.thirdPartyBranchId === String(id) ||
-          invoice.items.some((item) => item.itemThirdPartyBranchId === String(id))
-      )
-  )
-  if (inUse) return false
-  if (kind === 'exporter') {
-    publish({
-      ...snapshot,
-      exporters: snapshot.exporters.map((owner) =>
-        owner.id === ownerId ? { ...owner, branches: owner.branches.filter((branch) => branch.id !== id) } : owner
-      )
-    })
-  } else {
-    publish({
-      ...snapshot,
-      businesses: snapshot.businesses.map((owner) =>
-        owner.id === ownerId ? { ...owner, branches: owner.branches.filter((branch) => branch.id !== id) } : owner
-      )
-    })
-  }
-  return true
-}
-
 export function saveBill(values: ShippingBillFormValues, id?: number) {
   const now = new Date().toISOString()
   const previous = snapshot.bills.find((bill) => bill.id === id)

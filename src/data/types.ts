@@ -33,6 +33,15 @@ export const priceInclusionTypes = [
   { value: 'N', label: 'Neither - N' }
 ]
 
+export const currencyOptions = [
+  { value: 'USD', label: 'USD' },
+  { value: 'EUR', label: 'EUR' },
+  { value: 'INR', label: 'INR' },
+  { value: 'AED', label: 'AED' },
+  { value: 'GBP', label: 'GBP' },
+  { value: 'SGD', label: 'SGD' }
+]
+
 export const cargoOptions = [
   { value: 'P', label: 'Packaged cargo - P' },
   { value: 'C', label: 'Containerized - C' },

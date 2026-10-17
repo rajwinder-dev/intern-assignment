@@ -1,0 +1,50 @@
+import { Input } from 'ui/inputs/input'
+import { lookupLists } from '@/shipping-bills/lookup'
+import { BillSelect, hasValue, type BillFormContext } from '../utils'
+
+const { currencyOptions } = lookupLists
+
+// Each name needs `${name}Rate`, `${name}Amount` and `${name}Currency` on the invoice;
+// register() is typed against the form values, so a missing field fails to compile.
+export type ChargeName = 'freight' | 'insurance' | 'commission' | 'discount' | 'otherDeductions'
+
+interface ChargeRowProps {
+  formCtx: BillFormContext
+  invoiceIndex: number
+  name: ChargeName
+  label: string
+  currency?: string
+}
+
+/** A charge entered either as a percentage rate or as a flat amount (never both). */
+export function ChargeRow({ formCtx, invoiceIndex, name, label, currency }: ChargeRowProps) {
+  const { register, watch } = formCtx.hooks
+  const rate = watch(`invoices.${invoiceIndex}.${name}Rate`)
+  const amount = watch(`invoices.${invoiceIndex}.${name}Amount`)
+
+  return (
+    <div className="p-2">
+      <div className="flex flex-wrap items-center gap-2 lg:flex-nowrap">
+        <span className="w-28 shrink-0 font-medium text-gray-900">{label}</span>
+        <div className="flex items-center gap-1">
+          <Input
+            type="number"
+            {...register(`invoices.${invoiceIndex}.${name}Rate`)}
+            className="text-right"
+            disabled={hasValue(amount)}
+            placeholder="Rate"
+          />
+          <span className="text-xs text-gray-500">%</span>
+        </div>
+        <Input
+          type="number"
+          {...register(`invoices.${invoiceIndex}.${name}Amount`)}
+          className="py-1 text-right"
+          disabled={hasValue(rate)}
+          placeholder="Amount"
+        />
+        <BillSelect name={`invoices.${invoiceIndex}.${name}Currency`} options={currencyOptions} placeholder={currency} />
+      </div>
+    </div>
+  )
+}
