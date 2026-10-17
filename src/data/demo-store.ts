@@ -2,7 +2,8 @@ import { businesses } from '@/data/businesses'
 import { exporters } from '@/data/exporters'
 import { seedBills } from '@/data/seed-bills'
 import { useSyncExternalStore } from 'react'
-import { Branch, Business, Exporter, SavedBill, ShippingBillFormValues, toShippingBillPayload } from './model'
+import { toShippingBillPayload } from '@/model/model'
+import type { Branch, Business, Exporter, SavedBill, ShippingBillFormValues } from '@/types/types'
 
 interface DemoData {
   exporters: Exporter[]

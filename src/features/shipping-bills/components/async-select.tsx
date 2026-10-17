@@ -5,7 +5,7 @@ import { InputError } from 'ui/inputs/error'
 import { Popover, PopoverContent, PopoverTrigger } from 'ui/interactive/popover'
 import { PopoverContext } from 'ui/interactive/popover-context'
 import { clsx, getContext } from 'ui/utils'
-import type { LabelHook, OptionsHook } from '@/shipping-bills/lookup'
+import type { LabelHook, OptionsHook } from '@/hooks/lookup-hooks'
 
 interface AsyncSelectProps {
   name: string
@@ -20,7 +20,7 @@ interface AsyncSelectProps {
   onValueChange?: (value: string) => void
 }
 
-/** Searchable select whose options and selected label come from react-query hooks in `lookup.ts`. */
+/** Searchable select whose options and selected label come from lookup query hooks. */
 export function AsyncSelect({
   name,
   placeholder = 'Search...',

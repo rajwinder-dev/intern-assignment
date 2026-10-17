@@ -1,4 +1,4 @@
-import type { ShippingBillFormValues } from '@/shipping-bills/model'
+import type { ShippingBillFormValues } from '@/types/types'
 import type { TabProps } from '../utils'
 import { CargoSection } from './cargo-section'
 import { DocumentsSection } from './documents-section'

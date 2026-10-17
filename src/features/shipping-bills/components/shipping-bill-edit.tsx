@@ -1,12 +1,12 @@
 import { routes } from '@/shared/route-paths'
-import { useLookup } from '@/shipping-bills/lookup'
+import { useShippingBillLookup } from '@/hooks/shipping-bill-hooks'
 import { navigate, useParams } from 'core/routing'
 import { Button } from 'ui/basic/button'
 import { ShippingBillForm } from './shipping-bill-form'
 
 export default function ShippingBillEdit() {
   const { id } = useParams<{ id?: string }>()
-  const { getBillById } = useLookup()
+  const { getBillById } = useShippingBillLookup()
   const bill = getBillById(id)
 
   if (!bill)

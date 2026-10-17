@@ -1,4 +1,4 @@
-import type { SavedBill } from '@/shipping-bills/model'
+import type { SavedBill } from '@/types/types'
 
 export const seedBills: SavedBill[] = [
   {

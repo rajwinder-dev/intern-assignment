@@ -1,6 +1,6 @@
 import { s } from 'core/form'
-import type { ShippingBillFormValues } from '@/shipping-bills/model'
-import type { BillDocument, Container, Invoice, Item, License, PackingRange } from '../utils'
+import type { ShippingBillFormValues } from '@/types/types'
+import type { BillDocument, Container, Invoice, Item, License, PackingRange } from '@/types/types'
 
 // Every key below must exist on the root form or on one of its nested rows.
 // A typo or a renamed field in model.ts becomes a compile error here.

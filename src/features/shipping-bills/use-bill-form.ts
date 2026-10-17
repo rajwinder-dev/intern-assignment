@@ -3,11 +3,11 @@ import { useForm } from 'core/form'
 import { navigate } from 'core/routing'
 import { toast } from 'core/toast-manager'
 import { useState } from 'react'
-import { saveBill } from '@/shipping-bills/demo-store'
-import { useUpsertBill } from '@/shipping-bills/lookup'
-import type { ShippingBillFormValues } from '@/shipping-bills/model'
+import { saveBill } from '@/data/demo-store'
+import { useUpsertBill } from '@/hooks/shipping-bill-hooks'
+import type { ShippingBillFormValues } from '@/types/types'
 import { billSchema } from './schema'
-import { tabs } from './tabs'
+import { tabs } from './components/tabs'
 
 export interface UseBillFormOptions {
   initialValues: ShippingBillFormValues

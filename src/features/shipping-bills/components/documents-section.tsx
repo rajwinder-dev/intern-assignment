@@ -2,11 +2,13 @@ import { useFieldArray } from 'core/form'
 import { Button } from 'ui/basic/button'
 import { Card, CardContent, CardHeader } from 'ui/basic/card'
 import { Input } from 'ui/inputs/input'
-import { emptyDocument } from '@/shipping-bills/model'
-import { lookupLists, useDocumentTypeLabel, useDocumentTypeOptions } from '@/shipping-bills/lookup'
+import { emptyDocument } from '@/model/model'
+import { lookupLists } from '@/constants/constants'
+import { useDocumentTypeLabel, useDocumentTypeOptions } from '@/hooks/lookup-hooks'
+import type { BillDocument } from '@/types/types'
 import { AsyncSelect } from '../components/async-select'
 import { Advanced } from '../components/layout'
-import { BillSelect, dateType, type BillDocument, type BillFormContext, type TabProps } from '../utils'
+import { BillSelect, dateType, type BillFormContext, type TabProps } from '../utils'
 
 const { fileTypeOptions } = lookupLists
 

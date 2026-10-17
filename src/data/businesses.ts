@@ -1,4 +1,4 @@
-import type { Business } from '@/shipping-bills/model'
+import type { Business } from '@/types/types'
 
 export const businesses: Business[] = [
   {

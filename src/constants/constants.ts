@@ -1,3 +1,11 @@
+import { countries } from '@/data/countries'
+import { documentCodes } from '@/data/e-sanchit-codes'
+import { ports } from '@/data/ports'
+import { quantityCodes } from '@/data/quantity-code'
+import schemeCodes from '@/data/scheme-codes'
+import { stateOptions } from '@/data/states'
+import { Trades } from '@/data/trade-agrements'
+
 export const sealTypes = [
   { value: 'S', label: 'S - Self sealed' },
   { value: 'A', label: 'A - Agency / Customs sealed' },
@@ -49,3 +57,21 @@ export const cargoOptions = [
   { value: 'LB', label: 'Liquid bulk - LB' },
   { value: 'DB', label: 'Dry bulk - DB' }
 ]
+
+export const lookupLists = {
+  documentCodes,
+  quantityCodes,
+  schemeCodes,
+  stateOptions,
+  trades: Trades,
+  cargoOptions,
+  contractTypes,
+  currencyOptions,
+  paymentTypes,
+  priceInclusionTypes,
+  sealTypes,
+  weightUnits,
+  countries,
+  fileTypeOptions: [{ value: 'pdf', label: 'PDF' }],
+  portOptions: ports.map((port) => ({ value: port.code, label: `${port.name} · ${port.code}` }))
+}

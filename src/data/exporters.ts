@@ -1,4 +1,4 @@
-import type { Exporter } from '@/shipping-bills/model'
+import type { Exporter } from '@/types/types'
 
 export const exporters: Exporter[] = [
   {

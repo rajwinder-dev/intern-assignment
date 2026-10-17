@@ -1,4 +1,4 @@
-import { emptyBill } from '@/shipping-bills/model'
+import { emptyBill } from '@/model/model'
 import { ShippingBillForm } from './shipping-bill-form'
 
 export default function ShippingBillCreate() {

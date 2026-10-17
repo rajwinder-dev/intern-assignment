@@ -1,5 +1,6 @@
 import { API_SEED_SHIPPING_BILLS } from '@/data/api-seed-shipping-bills'
-import { emptyBill, emptyInvoice, SavedBill, ShippingBillFormValues } from './model'
+import { emptyBill, emptyInvoice } from '@/model/model'
+import type { SavedBill, ShippingBillFormValues } from '@/types/types'
 
 const BASE_URL =
   import.meta.env.VITE_BASE_URL ||
@@ -326,14 +327,7 @@ function triggerBlobDownload(blob: Blob, filename: string) {
 
 let internalBills: SavedBill[] = normalizeApiBills(API_SEED_SHIPPING_BILLS)
 
-export const shippingBillService = {
-  /**
-   * Return initial in-memory bills
-   */
-  getInitialBills(): SavedBill[] {
-    return internalBills
-  },
-
+export const shippingBillApi = {
   /**
    * Find bill by id
    */

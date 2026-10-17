@@ -1,7 +1,7 @@
-import ListDashboard from '@/dashboard/list-dashboard'
+import ListDashboard from '@/features/dashboard/list-dashboard'
 import { ApplicationLayout } from '@/shared/application-layout'
-import ShippingBillCreate from '@/shipping-bills/components/shipping-bill-create'
-import ShippingBillEdit from '@/shipping-bills/components/shipping-bill-edit'
+import ShippingBillCreate from '@/features/shipping-bills/components/shipping-bill-create'
+import ShippingBillEdit from '@/features/shipping-bills/components/shipping-bill-edit'
 import { Route, RouteObject } from 'core/routing/route-utils'
 import { routes } from './route-paths'
 

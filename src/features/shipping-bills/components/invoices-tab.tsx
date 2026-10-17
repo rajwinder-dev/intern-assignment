@@ -1,6 +1,7 @@
 import { useFieldArray } from 'core/form'
 import { Button } from 'ui/basic/button'
-import { emptyInvoice, type ShippingBillFormValues } from '@/shipping-bills/model'
+import { emptyInvoice } from '@/model/model'
+import type { ShippingBillFormValues } from '@/types/types'
 import type { TabProps } from '../utils'
 import { InvoiceEditor } from './invoice-editor'
 

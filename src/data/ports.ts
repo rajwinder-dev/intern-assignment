@@ -1,8 +1,4 @@
-export interface PortOption {
-  code: string
-  name: string
-  countryCode: string
-}
+import type { PortOption } from '@/types/types'
 
 export const loadingPorts: PortOption[] = [
   { code: 'INNSA1', name: 'Nhava Sheva', countryCode: 'IN' },

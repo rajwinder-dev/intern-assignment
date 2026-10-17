@@ -1,5 +1,5 @@
 import { Input } from 'ui/inputs/input'
-import { lookupLists } from '@/shipping-bills/lookup'
+import { lookupLists } from '@/constants/constants'
 import { BillSelect, hasValue, type BillFormContext } from '../utils'
 
 const { currencyOptions } = lookupLists

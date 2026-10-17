@@ -5,7 +5,7 @@ import { Button } from 'ui/basic/button'
 import { Tabs, TabsList, TabsTrigger } from 'ui/interactive/tabs'
 import { PersistentTab } from './layout'
 import { tabs } from './tabs'
-import { useBillForm, type UseBillFormOptions } from './use-bill-form'
+import { useBillForm, type UseBillFormOptions } from '../use-bill-form'
 import { WorkflowSteps } from './workflow-steps'
 
 interface ShippingBillFormProps extends UseBillFormOptions {

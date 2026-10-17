@@ -1,13 +1,14 @@
 import { Card, CardContent, CardHeader } from 'ui/basic/card'
 import { Input } from 'ui/inputs/input'
+import { lookupLists } from '@/constants/constants'
 import {
-  lookupLists,
   useDestinationPortOptions,
   useLoadingPortOptions,
   useMarksAndNumbers,
   usePortLabel
-} from '@/shipping-bills/lookup'
-import { portCountry, type ShippingBillFormValues } from '@/shipping-bills/model'
+} from '@/hooks/lookup-hooks'
+import { portCountry } from '@/model/model'
+import type { ShippingBillFormValues } from '@/types/types'
 import { AsyncSelect } from '../components/async-select'
 import { Advanced, SectionHeading } from '../components/layout'
 import { PartyFields } from '../components/party-fields'

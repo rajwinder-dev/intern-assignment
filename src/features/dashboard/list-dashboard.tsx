@@ -1,9 +1,10 @@
 import { routes } from '@/shared/route-paths'
-import { invoiceTotal, SavedBill } from '@/shipping-bills/model'
-import { shippingBillService } from '@/shipping-bills/shipping-bill-service'
+import { invoiceTotal } from '@/model/model'
+import type { SavedBill } from '@/types/types'
+import { useDownloadFlatFile, useShippingBills } from '@/hooks/shipping-bill-hooks'
 import { navigate } from 'core/routing'
 import { toast } from 'core/toast-manager'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Badge } from 'ui/basic/badge'
 import { Button } from 'ui/basic/button'
 import { Card, CardContent } from 'ui/basic/card'
@@ -11,34 +12,15 @@ import { Table } from 'ui/basic/table'
 import { Input } from 'ui/inputs/input'
 
 export default function ListDashboard() {
-  const [bills, setBills] = useState<SavedBill[]>(() => shippingBillService.getInitialBills())
+  const { data: bills = [], isLoading, refetch: fetchBills } = useShippingBills()
+  const downloadFlatFile = useDownloadFlatFile()
   const [search, setSearch] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
   const [downloadingId, setDownloadingId] = useState<number | null>(null)
-
-  const fetchBills = async () => {
-    setIsLoading(true)
-    try {
-      const remoteBills = await shippingBillService.list()
-      if (remoteBills && remoteBills.length > 0) {
-        setBills(remoteBills)
-        toast.success(`Loaded ${remoteBills.length} shipping bills`)
-      }
-    } catch (err: any) {
-      console.warn('Backend API listing notice:', err)
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
-  useEffect(() => {
-    fetchBills()
-  }, [])
 
   const handleDownloadFlatFile = async (bill: SavedBill) => {
     try {
       setDownloadingId(bill.id)
-      const res = await shippingBillService.downloadFlatFile(bill.id, bill)
+      const res = await downloadFlatFile.mutateAsync({ id: bill.id, bill })
       if (res.source === 'api') {
         toast.success('Flat file downloaded from backend API')
       } else {
@@ -89,7 +71,7 @@ export default function ListDashboard() {
           <p className="mt-1 text-sm text-gray-500">Create and continue the shipping bill step of each export job.</p>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm" onClick={fetchBills} disabled={isLoading}>
+          <Button variant="outline" size="sm" onClick={() => void fetchBills()} disabled={isLoading}>
             {isLoading ? 'Syncing...' : 'Sync from API'}
           </Button>
           <Button onClick={() => navigate(routes.shippingBillNew)}>+ New shipping bill</Button>
