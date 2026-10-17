@@ -1,7 +1,7 @@
 import { RrCaretDown } from 'icons/rr/fi-rr-caret-down'
 import { useState } from 'react'
-import { getFormContext, RegisterOptions, useController } from 'ui/form'
-import { InputError } from 'ui/inputs/error'
+import { getFormContext, getNestedSchema, useController } from 'ui/form'
+import type { RegisterOptions } from 'ui/form'
 import { Popover, PopoverContent, PopoverTrigger } from 'ui/interactive/popover'
 import { PopoverContext } from 'ui/interactive/popover-context'
 import { clsx, getContext } from 'ui/utils'
@@ -33,10 +33,10 @@ export function AsyncSelect({
   onValueChange
 }: AsyncSelectProps) {
   const ctx = getFormContext()
-  const { field } = useController({
+  const { field, fieldState } = useController({
     name,
     control: ctx.hooks.control,
-    rules: ctx.schema.shape[name] ?? rules,
+    rules: (getNestedSchema(name, ctx.schema) as RegisterOptions) ?? rules,
     disabled
   })
 
@@ -58,9 +58,11 @@ export function AsyncSelect({
       <Popover placement="bottom-start" fallbackPlacements={['top-start']} onOpenCallback={setOpen}>
         <PopoverTrigger
           className={clsx(
-            'outline-focus-select group flex w-full cursor-pointer items-center justify-between rounded border border-gray-200 pr-2 hover:border-gray-300 disabled:cursor-not-allowed disabled:opacity-50',
-            className || 'bg-white',
-            disabled && 'cursor-not-allowed opacity-50'
+            clsx(
+              'outline-focus-select group flex w-full cursor-pointer items-center justify-between rounded border border-gray-200 pr-2 hover:border-gray-300 disabled:cursor-not-allowed disabled:opacity-50',
+              className || 'bg-white'
+            ),
+            disabled ? 'cursor-not-allowed opacity-50' : ''
           )}
           disabled={disabled}>
           <div className="flex items-center p-2 text-sm">
@@ -100,7 +102,11 @@ export function AsyncSelect({
           </div>
         </PopoverContent>
       </Popover>
-      <InputError name={name} />
+      {fieldState.error?.message && (
+        <p role="alert" className="mt-1 text-xs text-red-600">
+          {fieldState.error.message}
+        </p>
+      )}
     </div>
   )
 }

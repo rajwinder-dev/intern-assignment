@@ -14,7 +14,7 @@ interface ShippingBillFormProps extends UseBillFormOptions {
 
 /** Shared form shell used by both the create and edit pages. */
 export function ShippingBillForm({ title, ...options }: ShippingBillFormProps) {
-  const { formCtx, activeTab, setActiveTab, isFirstTab, isLastTab, goPrevious, goNext, handleSave, handleInvalid } =
+  const { formCtx, activeTab, goToTab, isFirstTab, isLastTab, goPrevious, goNext, handleSave, submitFinal } =
     useBillForm(options)
 
   return (
@@ -31,8 +31,8 @@ export function ShippingBillForm({ title, ...options }: ShippingBillFormProps) {
 
       <WorkflowSteps />
 
-      <Form ctx={formCtx} handleSubmit={handleSave} onInvalid={handleInvalid} className="space-y-5">
-        <Tabs value={activeTab} onValueChange={(value) => setActiveTab(String(value))}>
+      <Form ctx={formCtx} handleSubmit={handleSave} className="space-y-5">
+        <Tabs value={activeTab} onValueChange={(value) => void goToTab(String(value))}>
           <TabsList className="flex w-full justify-start overflow-x-auto">
             {tabs.map((tab) => (
               <TabsTrigger key={tab.id} value={tab.id}>
@@ -59,7 +59,9 @@ export function ShippingBillForm({ title, ...options }: ShippingBillFormProps) {
               </Button>
             )}
             {isLastTab ? (
-              <Button type="submit">Save changes</Button>
+              <Button type="button" onClick={() => void submitFinal()}>
+                Save changes
+              </Button>
             ) : (
               <Button type="button" onClick={goNext}>
                 Save & Next

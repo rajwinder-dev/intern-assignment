@@ -5,6 +5,8 @@ import { toast } from 'core/toast-manager'
 import { useState } from 'react'
 import { saveBill } from '@/data/demo-store'
 import { useUpsertBill } from '@/hooks/shipping-bill-hooks'
+import { toHttpShippingBillPayload } from '@/api/shipping-bill-api'
+import type { ShippingBillApiPayload } from '@/api/shipping-bill-api'
 import type { ShippingBillFormValues } from '@/types/types'
 import { billSchema } from './schema'
 import { tabs } from './components/tabs'
@@ -35,30 +37,58 @@ export function useBillForm({ initialValues, billId, successMessage }: UseBillFo
     setActiveTab(tabs[tabIndex - 1].id)
   }
 
-  function goNext() {
+  async function validateThrough(targetIndex: number) {
+    for (let index = 0; index < targetIndex; index += 1) {
+      const tab = tabs[index]
+      const isValid = await formCtx.hooks.trigger(tab.validationFields(formCtx.hooks.getValues()))
+      if (!isValid) {
+        toast.error('Please fix the errors in this step before continuing')
+        setActiveTab(tab.id)
+        return false
+      }
+    }
+    return true
+  }
+
+  async function goNext() {
+    const isValid = await validateThrough(tabIndex + 1)
+    if (!isValid) return
     saveDraft()
     toast.success('Details saved')
     setActiveTab(tabs[tabIndex + 1].id)
   }
 
+  async function goToTab(tabId: string) {
+    const targetIndex = tabs.findIndex((tab) => tab.id === tabId)
+    if (targetIndex < 0 || targetIndex <= tabIndex) {
+      setActiveTab(tabId)
+      return
+    }
+    if (await validateThrough(targetIndex)) setActiveTab(tabId)
+  }
+
   async function handleSave(data: ShippingBillFormValues) {
     try {
-      const saved = saveBill(data, draftId)
+      const payload: ShippingBillApiPayload = toHttpShippingBillPayload(data)
+      console.log('Shipping bill payload:', payload)
+      saveBill(data, draftId)
       // The bill is already saved locally, so a backend failure should not block the user.
-      await upsertBill.mutateAsync(data).catch(() => undefined)
+      await upsertBill.mutateAsync(payload).catch(() => undefined)
       toast.success(successMessage)
-      navigate(routes.toShippingBillEdit(saved.id))
+      navigate(routes.dashboard)
     } catch {
       toast.error('Failed to save shipping bill')
     }
   }
 
-  function handleInvalid(errors: Record<string, unknown>) {
+  function handleInvalid(errors: object) {
     toast.error('Please check the required fields')
-    const tab = tabs.find((item) => item.errorFields.some((field) => field in errors))
+    const errorFields = new Set(Object.keys(errors))
+    const tab = tabs.find((item) => item.errorFields.some((field) => errorFields.has(field)))
     if (tab) setActiveTab(tab.id)
-    // otherwise stay on the tab the user submitted from
   }
+
+  const submitFinal = formCtx.hooks.handleSubmit(handleSave, handleInvalid)
 
   return {
     formCtx,
@@ -68,7 +98,9 @@ export function useBillForm({ initialValues, billId, successMessage }: UseBillFo
     isLastTab: tabIndex === tabs.length - 1,
     goPrevious,
     goNext,
+    goToTab,
     handleSave,
-    handleInvalid
+    handleInvalid,
+    submitFinal
   }
 }

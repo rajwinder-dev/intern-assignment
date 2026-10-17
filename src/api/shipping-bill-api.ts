@@ -1,17 +1,7 @@
 import { API_SEED_SHIPPING_BILLS } from '@/data/api-seed-shipping-bills'
+import { getDemoData } from '@/data/demo-store'
 import { emptyBill, emptyInvoice } from '@/model/model'
 import type { SavedBill, ShippingBillFormValues } from '@/types/types'
-
-const BASE_URL =
-  import.meta.env.VITE_BASE_URL ||
-  import.meta.env.PUBLIC_API_URL ||
-  'http://192.168.1.123:3408'
-
-const DEFAULT_HEADERS = {
-  Accept: 'application/json',
-  'Content-Type': 'application/json',
-  Authorization: 'tenantId=1000&user=1000&role=1'
-}
 
 /**
  * Transforms form values into the payload structure required by POST /api/shipping-bills
@@ -117,6 +107,8 @@ export function toHttpShippingBillPayload(values: ShippingBillFormValues) {
     }))
   }
 }
+
+export type ShippingBillApiPayload = ReturnType<typeof toHttpShippingBillPayload>
 
 export function normalizeApiBill(raw: any): SavedBill {
   if (!raw) return { id: 0, created: '', updated: '', values: emptyBill() }
@@ -340,23 +332,17 @@ export const shippingBillApi = {
    * List all shipping bills (per shipping_bill.http)
    */
   async list(): Promise<SavedBill[]> {
-    try {
-      const response = await fetch(`${BASE_URL}/api/shipping-bills`, {
-        method: 'GET',
-        headers: DEFAULT_HEADERS
-      })
-      if (response.ok) {
-        const data = await response.json()
-        const normalized = normalizeApiBills(data)
-        if (normalized && normalized.length > 0) {
-          internalBills = normalized
-          return normalized
-        }
-      }
-    } catch {
-      // Fallback to internal API seed records
-    }
-    return internalBills
+    // Mocked GET /api/shipping-bills. Keep local demo bills visible alongside sample API records.
+    // Real backend call, retained for when GET integration is re-enabled:
+    // const response = await fetch(`${BASE_URL}/api/shipping-bills`, {
+    //   method: 'GET',
+    //   headers: DEFAULT_HEADERS
+    // })
+    // if (!response.ok) throw new Error(`Failed to list shipping bills: ${response.status}`)
+    // return normalizeApiBills(await response.json())
+    const bills = new Map(internalBills.map((bill) => [bill.id, bill]))
+    getDemoData().bills.forEach((bill) => bills.set(bill.id, bill))
+    return [...bills.values()]
   },
 
 
@@ -365,96 +351,72 @@ export const shippingBillApi = {
    * Fetch flat file text or payload (per shipping_bill.http)
    */
   async getFlatFile(id: string | number) {
-    const response = await fetch(`${BASE_URL}/api/shipping-bills/${id}/flat-file`, {
-      method: 'GET',
-      headers: DEFAULT_HEADERS
-    })
-    if (!response.ok) {
-      throw new Error(`Failed to get flat file: ${response.status} ${response.statusText}`)
-    }
-    const contentType = response.headers.get('content-type') || ''
-    if (contentType.includes('application/json')) {
-      return response.json()
-    }
-    return response.text()
+    // Real backend call, retained for when flat-file GET integration is re-enabled:
+    // const response = await fetch(`${BASE_URL}/api/shipping-bills/${id}/flat-file`, {
+    //   method: 'GET',
+    //   headers: DEFAULT_HEADERS
+    // })
+    // if (!response.ok) throw new Error(`Failed to get flat file: ${response.status} ${response.statusText}`)
+    // return response.headers.get('content-type')?.includes('application/json')
+    //   ? response.json()
+    //   : response.text()
+    const bill = getDemoData().bills.find((item) => item.id === Number(id)) ?? this.getById(id)
+    if (!bill) throw new Error(`No local shipping bill was found for ${id}.`)
+    return generateFlatFileContent(bill)
   },
 
   /**
    * Download shipping bill flat file (.sb) directly in the browser.
-   * Tries backend API first; falls back to generating .sb flat file locally from bill data.
+   * Generates and downloads the .sb flat file from local bill data.
    */
   async downloadFlatFile(
     id: string | number,
     billData?: SavedBill,
     fallbackFilename?: string
   ): Promise<{ source: 'api' | 'local' }> {
-    let filename = fallbackFilename || `shipping_bill_${id}.sb`
-
-    try {
-      const response = await fetch(`${BASE_URL}/api/shipping-bills/${id}/flat-file`, {
-        method: 'GET',
-        headers: {
-          Accept: '*/*',
-          Authorization: DEFAULT_HEADERS.Authorization
-        }
-      })
-
-      if (response.ok) {
-        const contentType = response.headers.get('content-type') || ''
-        let blob: Blob
-
-        const disposition = response.headers.get('content-disposition')
-        if (disposition && disposition.includes('filename=')) {
-          const match = disposition.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/)
-          if (match && match[1]) {
-            filename = match[1].replace(/['"]/g, '')
-          }
-        }
-
-        if (contentType.includes('application/json')) {
-          const json = await response.json()
-          const content =
-            typeof json === 'string'
-              ? json
-              : json.file || json.content || json.data || JSON.stringify(json, null, 2)
-          blob = new Blob([content], { type: 'text/plain;charset=utf-8' })
-        } else {
-          blob = await response.blob()
-        }
-
-        triggerBlobDownload(blob, filename)
-        return { source: 'api' }
-      }
-    } catch {
-      // Backend API offline or unreachable - fall back to local generation
-    }
+    // Real backend call, retained for when flat-file download integration is re-enabled:
+    // const response = await fetch(`${BASE_URL}/api/shipping-bills/${id}/flat-file`, {
+    //   method: 'GET',
+    //   headers: { Accept: '*/*', Authorization: DEFAULT_HEADERS.Authorization }
+    // })
+    // if (!response.ok) throw new Error(`Failed to download flat file: ${response.status}`)
+    // const blob = await response.blob()
+    // triggerBlobDownload(blob, filename)
+    // return { source: 'api' }
 
     if (billData) {
       const flatFileContent = generateFlatFileContent(billData)
       const blob = new Blob([flatFileContent], { type: 'text/plain;charset=utf-8' })
       const safeJob = billData.values.jobNumber || billData.id
-      triggerBlobDownload(blob, `shipping_bill_${safeJob}.sb`)
+      triggerBlobDownload(blob, fallbackFilename || `shipping_bill_${safeJob}.sb`)
       return { source: 'local' }
     }
 
-    throw new Error(`Backend server (${BASE_URL}) is offline and no local bill data was found.`)
+    throw new Error(`No local bill data was found for shipping bill ${id}.`)
   },
 
   /**
    * POST /api/shipping-bills
-   * Upsert shipping bill (per shipping_bill.http)
+   * Local mock for the shipping-bill upsert. The form persists the bill to
+   * demo-store; this response keeps the mutation flow shaped like the backend.
    */
-  async upsert(values: ShippingBillFormValues) {
-    const payload = toHttpShippingBillPayload(values)
-    const response = await fetch(`${BASE_URL}/api/shipping-bills`, {
-      method: 'POST',
-      headers: DEFAULT_HEADERS,
-      body: JSON.stringify(payload)
-    })
-    if (!response.ok) {
-      throw new Error(`Failed to save shipping bill: ${response.status} ${response.statusText}`)
+  async upsert(payload: ShippingBillApiPayload) {
+    // Real backend call, retained for when POST integration is re-enabled:
+    // const response = await fetch(`${BASE_URL}/api/shipping-bills`, {
+    //   method: 'POST',
+    //   headers: DEFAULT_HEADERS,
+    //   body: JSON.stringify(payload)
+    // })
+    // if (!response.ok) {
+    //   throw new Error(`Failed to save shipping bill: ${response.status} ${response.statusText}`)
+    // }
+    // return response.json()
+
+    return {
+      success: true,
+      message: 'Shipping bill saved in demo state',
+      data: payload
     }
-    return response.json()
   }
 }
 
