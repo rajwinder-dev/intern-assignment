@@ -4,8 +4,6 @@ import { BillSelect, hasValue, type BillFormContext } from '../utils'
 
 const { currencyOptions } = lookupLists
 
-// Each name needs `${name}Rate`, `${name}Amount` and `${name}Currency` on the invoice;
-// register() is typed against the form values, so a missing field fails to compile.
 export type ChargeName = 'freight' | 'insurance' | 'commission' | 'discount' | 'otherDeductions'
 
 interface ChargeRowProps {
@@ -16,7 +14,6 @@ interface ChargeRowProps {
   currency?: string
 }
 
-/** A charge entered either as a percentage rate or as a flat amount (never both). */
 export function ChargeRow({ formCtx, invoiceIndex, name, label, currency }: ChargeRowProps) {
   const { register, watch } = formCtx.hooks
   const rate = watch(`invoices.${invoiceIndex}.${name}Rate`)

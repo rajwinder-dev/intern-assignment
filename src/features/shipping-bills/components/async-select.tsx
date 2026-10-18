@@ -14,7 +14,6 @@ interface AsyncSelectProps {
   className?: string
   rules?: RegisterOptions
   showError?: boolean
-  /** Owner id for dependent lookups (e.g. branches of an exporter). */
   parentId?: string
   useOptions: OptionsHook
   useLabel: LabelHook

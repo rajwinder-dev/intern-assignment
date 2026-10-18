@@ -5,7 +5,7 @@ import { BillFormContext } from '../utils'
 export function FormFieldError({ formCtx, name }: { formCtx: BillFormContext; name: Path<ShippingBillFormValues> }) {
   const error = formCtx.hooks.getFieldState(name, formCtx.hooks.formState).error
   const type = error?.type
-  const message = type === 'required' ? 'This field is required' : undefined
+  const message = type === 'required' ? 'This field is required' : error?.message
   if (!message) return null
 
   return (

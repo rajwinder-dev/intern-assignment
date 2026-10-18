@@ -2,7 +2,7 @@ import { useShippingBillLookup } from '@/hooks/shipping-bill-hooks'
 import { routes } from '@/routes/route-paths'
 import { navigate, useParams } from 'core/routing'
 import { Button } from 'ui/basic/button'
-import { ShippingBillForm } from './shipping-bill-form'
+import { ShippingBillForm } from '../components/shipping-bill-form'
 
 export default function ShippingBillEdit() {
   const { id } = useParams<{ id?: string }>()
