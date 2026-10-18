@@ -13,6 +13,7 @@ interface AsyncSelectProps {
   disabled?: boolean
   className?: string
   rules?: RegisterOptions
+  showError?: boolean
   /** Owner id for dependent lookups (e.g. branches of an exporter). */
   parentId?: string
   useOptions: OptionsHook
@@ -27,6 +28,7 @@ export function AsyncSelect({
   disabled = false,
   className,
   rules,
+  showError = true,
   parentId,
   useOptions,
   useLabel,
@@ -102,7 +104,7 @@ export function AsyncSelect({
           </div>
         </PopoverContent>
       </Popover>
-      {fieldState.error?.message && (
+      {showError && fieldState.error?.message && (
         <p role="alert" className="mt-1 text-xs text-red-600">
           {fieldState.error.message}
         </p>

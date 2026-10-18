@@ -3,6 +3,7 @@ import { Form } from 'core/form/components'
 import { navigate } from 'core/routing'
 import { Button } from 'ui/basic/button'
 import { Tabs, TabsList, TabsTrigger } from 'ui/interactive/tabs'
+import { useFormState } from 'react-hook-form'
 import { useBillForm, type UseBillFormOptions } from '../use-bill-form'
 import { PersistentTab } from './layout'
 import { tabs } from './tabs'
@@ -16,6 +17,7 @@ interface ShippingBillFormProps extends UseBillFormOptions {
 export function ShippingBillForm({ title, ...options }: ShippingBillFormProps) {
   const { formCtx, activeTab, goToTab, isFirstTab, isLastTab, goPrevious, goNext, handleSave, submitFinal } =
     useBillForm(options)
+  const { errors } = useFormState({ control: formCtx.hooks.control })
 
   return (
     <div className="space-y-5">
@@ -35,7 +37,10 @@ export function ShippingBillForm({ title, ...options }: ShippingBillFormProps) {
         <Tabs value={activeTab} onValueChange={(value) => void goToTab(String(value))}>
           <TabsList className="flex w-full justify-start overflow-x-auto">
             {tabs.map((tab) => (
-              <TabsTrigger key={tab.id} value={tab.id}>
+              <TabsTrigger
+                key={tab.id}
+                value={tab.id}
+                aria-invalid={tab.errorFields.some((field) => Boolean(errors[field]))}>
                 {tab.label}
               </TabsTrigger>
             ))}

@@ -13,6 +13,7 @@ import { AsyncSelect } from '../components/async-select'
 import { Advanced, SectionHeading } from '../components/layout'
 import { PartyFields } from '../components/party-fields'
 import { BillSelect, dateType, type TabProps } from '../utils'
+import { FormFieldError } from './field-error'
 
 const { cargoOptions, portOptions, sealTypes, stateOptions, weightUnits } = lookupLists
 
@@ -63,6 +64,19 @@ export function DetailsTab({ formCtx }: TabProps) {
           label="Consignee"
         />
 
+        <div>
+          <label htmlFor="jobDate" className="mb-1 block text-sm font-medium">
+            Job date
+          </label>
+          <input
+            id="jobDate"
+            type="date"
+            className="outline-focus-input w-full rounded-md border bg-inherit px-3 py-2 text-sm font-medium"
+            {...register('jobDate')}
+          />
+          <FormFieldError formCtx={formCtx} name="jobDate" />
+        </div>
+
         <div className="border-t border-gray-200 pt-5">
           <SectionHeading title="Route" />
           <div className="grid gap-4 sm:grid-cols-2">
@@ -74,8 +88,11 @@ export function DetailsTab({ formCtx }: TabProps) {
                 rules={{ required: true }}
                 useOptions={useLoadingPortOptions}
                 useLabel={usePortLabel}
+                showError={false}
               />
+              <FormFieldError formCtx={formCtx} name="loadingPort" />
             </div>
+
             <div>
               <span className="mb-1 block text-sm font-medium">Final destination port</span>
               <AsyncSelect
@@ -84,7 +101,9 @@ export function DetailsTab({ formCtx }: TabProps) {
                 rules={{ required: true }}
                 useOptions={useDestinationPortOptions}
                 useLabel={usePortLabel}
+                showError={false}
               />
+              <FormFieldError formCtx={formCtx} name="finalDestinationPort" />
             </div>
           </div>
           <p className="mt-3 text-xs text-gray-500">

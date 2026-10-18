@@ -16,6 +16,7 @@ import type { Branch, Business, Exporter } from '@/types/types'
 import { useState } from 'react'
 import { BillFormContext } from '../utils'
 import { AsyncSelect } from './async-select'
+import { FormFieldError } from './field-error'
 import { BranchDialog, PartyDialog } from './party-dialogs'
 
 export type PartyRole = 'exporter' | 'consignee' | 'buyer' | 'thirdParty'
@@ -110,7 +111,9 @@ export function PartyFields({
           useOptions={lookup.owner.useOptions}
           useLabel={lookup.owner.useLabel}
           onValueChange={handleOwnerSelected}
+          showError={false}
         />
+        <FormFieldError formCtx={formCtx} name={ownerName} />
       </div>
       <div>
         <div className="mb-1 flex items-center justify-between gap-2">
@@ -132,7 +135,9 @@ export function PartyFields({
           parentId={ownerId}
           useOptions={lookup.branch.useOptions}
           useLabel={lookup.branch.useLabel}
+          showError={false}
         />
+        <FormFieldError formCtx={formCtx} name={branchName} />
       </div>
 
       {dialog === 'party' && (

@@ -38,55 +38,56 @@ function useLabelQuery(key: string, { value, parentId }: LabelArgs, fn: () => Pr
 }
 
 // Exporter
-export function useExporterOptions(args) 
+export const useExporterOptions: OptionsHook = (args) =>
   useOptionsQuery('exporters', args, () => lookupApi.searchExporterOptions(args.query))
 
-export function useExporterLabel(args) 
+export const useExporterLabel: LabelHook = (args) =>
   useLabelQuery('exporters', args, () => lookupApi.getExporterLabel(args.value))
 
-export function useExporterBranchOptions(args) 
+export const useExporterBranchOptions: OptionsHook = (args) =>
   useOptionsQuery('exporter-branches', args, () =>
     lookupApi.searchExporterBranchOptions(args.parentId ?? '', args.query)
   )
 
-export function useExporterBranchLabel(args) 
+export const useExporterBranchLabel: LabelHook = (args) =>
   useLabelQuery('exporter-branches', args, () => lookupApi.getExporterBranchLabel(args.parentId ?? '', args.value))
 
 // Businesses (consignee / buyer / third party)
-export function useConsigneeOptions(args) 
+export const useConsigneeOptions: OptionsHook = (args) =>
   useOptionsQuery('consignees', args, () => lookupApi.searchBusinessOptions('consignee', args.query))
 
-export function useBuyerOptions(args) 
+export const useBuyerOptions: OptionsHook = (args) =>
   useOptionsQuery('buyers', args, () => lookupApi.searchBusinessOptions('buyer', args.query))
 
-export function useThirdPartyOptions(args) 
+export const useThirdPartyOptions: OptionsHook = (args) =>
   useOptionsQuery('third-parties', args, () => lookupApi.searchBusinessOptions('thirdParty', args.query))
 
-export function useBusinessLabel(args) 
+export const useBusinessLabel: LabelHook = (args) =>
   useLabelQuery('businesses', args, () => lookupApi.getConsigneeLabel(args.value))
 
-export function useBusinessBranchOptions(args) 
+export const useBusinessBranchOptions: OptionsHook = (args) =>
   useOptionsQuery('business-branches', args, () =>
     lookupApi.searchConsigneeBranchOptions(args.parentId ?? '', args.query)
   )
 
-export function useBusinessBranchLabel(args) 
+export const useBusinessBranchLabel: LabelHook = (args) =>
   useLabelQuery('business-branches', args, () => lookupApi.getBusinessBranchLabel(args.parentId ?? '', args.value))
 
 // Ports
-export function useLoadingPortOptions(args) 
+export const useLoadingPortOptions: OptionsHook = (args) =>
   useOptionsQuery('loading-ports', args, () => lookupApi.searchLoadingPortOptions(args.query))
 
-export function useDestinationPortOptions(args) 
+export const useDestinationPortOptions: OptionsHook = (args) =>
   useOptionsQuery('destination-ports', args, () => lookupApi.searchDestinationPortOptions(args.query))
 
-export function usePortLabel(args)  useLabelQuery('ports', args, () => lookupApi.getPortLabel(args.value))
+export const usePortLabel: LabelHook = (args) =>
+  useLabelQuery('ports', args, () => lookupApi.getPortLabel(args.value))
 
 // Document types
-export function useDocumentTypeOptions(args) 
+export const useDocumentTypeOptions: OptionsHook = (args) =>
   useOptionsQuery('document-types', args, () => lookupApi.searchDocumentTypeOptions(args.query))
 
-export function useDocumentTypeLabel(args) 
+export const useDocumentTypeLabel: LabelHook = (args) =>
   useLabelQuery('document-types', args, () => lookupApi.getDocumentTypeLabel(args.value))
 
 // Marks & numbers (depends on the selected exporter)
