@@ -1,10 +1,10 @@
+import type { ShippingBillFormValues } from '@/types/types'
 import type { useForm } from 'core/form'
 import { createElement } from 'react'
-import { getFormContext, getNestedSchema } from 'ui/form'
 import type { RegisterOptions } from 'ui/form'
-import { Select } from 'ui/inputs/select'
+import { getFormContext, getNestedSchema } from 'ui/form'
 import type { FormSelectProps } from 'ui/inputs/select'
-import type { ShippingBillFormValues } from '@/types/types'
+import { Select } from 'ui/inputs/select'
 
 export type BillFormContext = ReturnType<typeof useForm<ShippingBillFormValues>>
 

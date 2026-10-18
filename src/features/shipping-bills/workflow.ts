@@ -1,4 +1,4 @@
-import { routes } from '@/shared/route-paths'
+import { routes } from '@/routes/route-paths'
 
 // Later workflow parts can add a route here when their screens are available.
 export interface WorkflowStep {

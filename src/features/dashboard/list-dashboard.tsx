@@ -1,7 +1,7 @@
-import { routes } from '@/shared/route-paths'
-import { invoiceTotal } from '@/model/model'
-import type { SavedBill } from '@/types/types'
 import { useDownloadFlatFile, useShippingBills } from '@/hooks/shipping-bill-hooks'
+import { invoiceTotal } from '@/model/model'
+import { routes } from '@/routes/route-paths'
+import type { SavedBill } from '@/types/types'
 import { navigate } from 'core/routing'
 import { toast } from 'core/toast-manager'
 import { useState } from 'react'
@@ -12,12 +12,12 @@ import { Table } from 'ui/basic/table'
 import { Input } from 'ui/inputs/input'
 
 export default function ListDashboard() {
-  const { data: bills = [], isLoading, refetch: fetchBills } = useShippingBills()
+  const { data: bills, isLoading, refetch: fetchBills } = useShippingBills()
   const downloadFlatFile = useDownloadFlatFile()
   const [search, setSearch] = useState('')
   const [downloadingId, setDownloadingId] = useState<number | null>(null)
 
-  const handleDownloadFlatFile = async (bill: SavedBill) => {
+  async function handleDownloadFlatFile(bill: SavedBill) {
     try {
       setDownloadingId(bill.id)
       const res = await downloadFlatFile.mutateAsync({ id: bill.id, bill })
@@ -35,9 +35,9 @@ export default function ListDashboard() {
   }
 
   const filtered = bills
-    .filter((bill) => {
-      const exporter = bill.values.exporterName || ''
-      const consignee = bill.values.consigneeName || ''
+    ?.filter((bill) => {
+      const exporter = bill.values.exporterName
+      const consignee = bill.values.consigneeName
       return [
         bill.id,
         bill.values.jobNumber,
@@ -55,13 +55,9 @@ export default function ListDashboard() {
       return (isNaN(timeB) ? 0 : timeB) - (isNaN(timeA) ? 0 : timeA)
     })
 
-  const uniqueExportersCount = new Set(
-    bills.map((b) => b.values.exporterName).filter(Boolean)
-  ).size
+  const uniqueExportersCount = new Set(bills?.map((b) => b.values.exporterName).filter(Boolean)).size
 
-  const uniqueConsigneesCount = new Set(
-    bills.map((b) => b.values.consigneeName).filter(Boolean)
-  ).size
+  const uniqueConsigneesCount = new Set(bills?.map((b) => b.values.consigneeName).filter(Boolean)).size
 
   return (
     <div className="space-y-6">
@@ -82,7 +78,7 @@ export default function ListDashboard() {
         <Card>
           <CardContent className="pt-5">
             <p className="text-xs text-gray-500">Shipping bills</p>
-            <p className="mt-1 text-2xl font-semibold">{bills.length}</p>
+            <p className="mt-1 text-2xl font-semibold">{bills?.length}</p>
           </CardContent>
         </Card>
         <Card>
@@ -111,10 +107,10 @@ export default function ListDashboard() {
               />
             </div>
             <span className="text-sm text-gray-500">
-              {filtered.length} {filtered.length === 1 ? 'bill' : 'bills'}
+              {filtered?.length} {filtered?.length === 1 ? 'bill' : 'bills'}
             </span>
           </div>
-          {filtered.length ? (
+          {filtered?.length ? (
             <Table>
               <thead>
                 <tr>
@@ -154,7 +150,11 @@ export default function ListDashboard() {
                       <td>
                         <Badge variant="secondary">Draft</Badge>
                       </td>
-                      <td>{bill.updated && !isNaN(new Date(bill.updated).getTime()) ? new Date(bill.updated).toLocaleDateString() : '—'}</td>
+                      <td>
+                        {bill.updated && !isNaN(new Date(bill.updated).getTime())
+                          ? new Date(bill.updated).toLocaleDateString()
+                          : '—'}
+                      </td>
                       <td className="text-right">
                         <div className="flex items-center justify-end gap-2">
                           <Button

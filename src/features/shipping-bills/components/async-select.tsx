@@ -1,11 +1,11 @@
+import type { LabelHook, OptionsHook } from '@/hooks/lookup-hooks'
 import { RrCaretDown } from 'icons/rr/fi-rr-caret-down'
 import { useState } from 'react'
-import { getFormContext, getNestedSchema, useController } from 'ui/form'
 import type { RegisterOptions } from 'ui/form'
+import { getFormContext, getNestedSchema, useController } from 'ui/form'
 import { Popover, PopoverContent, PopoverTrigger } from 'ui/interactive/popover'
 import { PopoverContext } from 'ui/interactive/popover-context'
 import { clsx, getContext } from 'ui/utils'
-import type { LabelHook, OptionsHook } from '@/hooks/lookup-hooks'
 
 interface AsyncSelectProps {
   name: string

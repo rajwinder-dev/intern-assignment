@@ -94,11 +94,7 @@ export function CargoSection({ formCtx }: TabProps) {
                   </Button>
                 </div>
                 <div className="grid gap-4 sm:grid-cols-3">
-                  <Input
-                    label="Package from"
-                    type="number"
-                    {...register(`packingRanges.${index}.packingNumberFrom`)}
-                  />
+                  <Input label="Package from" type="number" {...register(`packingRanges.${index}.packingNumberFrom`)} />
                   <Input label="Package to" type="number" {...register(`packingRanges.${index}.packingNumberTo`)} />
                   <Input label="Packing code" {...register(`packingRanges.${index}.packingCode`)} />
                 </div>

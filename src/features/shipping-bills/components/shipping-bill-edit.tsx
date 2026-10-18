@@ -1,5 +1,5 @@
-import { routes } from '@/shared/route-paths'
 import { useShippingBillLookup } from '@/hooks/shipping-bill-hooks'
+import { routes } from '@/routes/route-paths'
 import { navigate, useParams } from 'core/routing'
 import { Button } from 'ui/basic/button'
 import { ShippingBillForm } from './shipping-bill-form'

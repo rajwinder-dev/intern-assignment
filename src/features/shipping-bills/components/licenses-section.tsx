@@ -40,9 +40,17 @@ export function LicensesSection({ formCtx }: TabProps) {
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               <Input label="Registration number" {...register(`licenses.${index}.registrationNumber`)} />
               <Input label="Registration date" type={dateType} {...register(`licenses.${index}.registrationDate`)} />
-              <Input label="Invoice serial number" type="number" {...register(`licenses.${index}.invoiceSerialNumber`)} />
+              <Input
+                label="Invoice serial number"
+                type="number"
+                {...register(`licenses.${index}.invoiceSerialNumber`)}
+              />
               <Input label="Item serial number" type="number" {...register(`licenses.${index}.itemSerialNumber`)} />
-              <Input label="Licence serial number" type="number" {...register(`licenses.${index}.licenseSerialNumber`)} />
+              <Input
+                label="Licence serial number"
+                type="number"
+                {...register(`licenses.${index}.licenseSerialNumber`)}
+              />
               <Input label="Item serial, Part E" {...register(`licenses.${index}.itemSerialNumberPartE`)} />
               <Input label="Item serial, Part C" {...register(`licenses.${index}.itemSerialNumberPartC`)} />
               <Input label="Licence quantity" type="number" {...register(`licenses.${index}.licenseQuantity`)} />

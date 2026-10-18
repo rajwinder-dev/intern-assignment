@@ -1,8 +1,8 @@
+import { lookupLists } from '@/constants/constants'
+import { emptyItem, lineTotal } from '@/model/model'
 import { Button } from 'ui/basic/button'
 import { Checkbox } from 'ui/inputs/checkbox'
 import { Input } from 'ui/inputs/input'
-import { lookupLists } from '@/constants/constants'
-import { emptyItem, lineTotal } from '@/model/model'
 import { Advanced } from '../components/layout'
 import { PartyFields } from '../components/party-fields'
 import { BillSelect, dateType, formatMoney, type BillFormContext } from '../utils'
@@ -59,7 +59,12 @@ export function ItemEditor({ formCtx, invoiceIndex, itemIndex, currency, onRemov
           placeholder="e.g. Cotton T-shirts"
         />
         <Input label="Quantity" type="number" {...register(`${path}.quantity`)} />
-        <BillSelect label="Unit" name={`${path}.unitOfMeasurement`} options={quantityCodes} rules={{ required: true }} />
+        <BillSelect
+          label="Unit"
+          name={`${path}.unitOfMeasurement`}
+          options={quantityCodes}
+          rules={{ required: true }}
+        />
         <Input label={`Unit price (${currency || 'currency'})`} type="number" {...register(`${path}.unitPrice`)} />
         <Input
           label="Item Total"

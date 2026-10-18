@@ -1,8 +1,8 @@
-import { marksByExporter } from '@/data/marks-and-numbers'
-import type { MarksAndNumbersOption } from '@/data/marks-and-numbers'
-import { documentCodes } from '@/data/e-sanchit-codes'
-import { loadingPorts, ports } from '@/data/ports'
 import { getDemoData } from '@/data/demo-store'
+import { documentCodes } from '@/data/e-sanchit-codes'
+import type { MarksAndNumbersOption } from '@/data/marks-and-numbers'
+import { marksByExporter } from '@/data/marks-and-numbers'
+import { loadingPorts, ports } from '@/data/ports'
 import type { Branch, Business, Exporter, PortOption } from '@/types/types'
 
 export type { MarksAndNumbersOption }
@@ -210,4 +210,3 @@ export const lookupApi = {
     return delay(marksByExporter[exporterId] ?? [])
   }
 }
-

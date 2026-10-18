@@ -44,7 +44,9 @@ src/
 │   └── shipping-bills/  # Form workflow, schema, and TSX components
 ├── hooks/               # React Query hooks and cache invalidation
 ├── model/               # Form defaults and domain transformations
-├── shared/              # App layout and routes
+├── layout/              # App layout
+├── lib/                 # Shared utilities and interceptors
+├── routes/              # Route definitions and paths
 └── types/               # Shared TypeScript types
 ```
 
@@ -77,3 +79,10 @@ The refactor keeps the existing React, TypeScript, React Query, and form archite
 ## AI Usage & Approach
 
 AI tools assisted with codebase inspection, refactoring, and this README. The resulting changes were reviewed and checked with TypeScript.
+
+## Decisions and improvements
+
+- Create and edit bills use the same form schema. If business requirements differ, the schema can be adjusted dynamically in `useBillForm`.
+- The core library and project structure are unchanged; only the shipping-bill feature was refactored.
+- Prefer a modular feature-based approach to reduce coupling.
+- Some types are missing exports from the core library.

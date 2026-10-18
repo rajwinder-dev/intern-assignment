@@ -1,5 +1,3 @@
-import { Card, CardContent, CardHeader } from 'ui/basic/card'
-import { Input } from 'ui/inputs/input'
 import { lookupLists } from '@/constants/constants'
 import {
   useDestinationPortOptions,
@@ -9,6 +7,8 @@ import {
 } from '@/hooks/lookup-hooks'
 import { portCountry } from '@/model/model'
 import type { ShippingBillFormValues } from '@/types/types'
+import { Card, CardContent, CardHeader } from 'ui/basic/card'
+import { Input } from 'ui/inputs/input'
 import { AsyncSelect } from '../components/async-select'
 import { Advanced, SectionHeading } from '../components/layout'
 import { PartyFields } from '../components/party-fields'
@@ -108,7 +108,12 @@ export function DetailsTab({ formCtx }: TabProps) {
               placeholder="Defaults to Branch State Code"
             />
             <div></div>
-            <BillSelect label="NFEI category" name="nfeiCategory" options={nfeiCategories} placeholder="Not applicable" />
+            <BillSelect
+              label="NFEI category"
+              name="nfeiCategory"
+              options={nfeiCategories}
+              placeholder="Not applicable"
+            />
             <Input label="RBI waiver number" {...register('rbiWaiverNumber')} />
             <Input label="RBI waiver date" type={dateType} {...register('rbiWaiverDate')} />
           </div>
@@ -140,7 +145,9 @@ export function DetailsTab({ formCtx }: TabProps) {
           <Advanced title="Additional Details">
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               <BillSelect label="Seal type" name="sealType" options={sealTypes} placeholder="Select if relevant" />
-              {!containers?.length && <Input label="Number of containers" type="number" {...register('numberOfContainers')} />}
+              {!containers?.length && (
+                <Input label="Number of containers" type="number" {...register('numberOfContainers')} />
+              )}
               <Input label="Loose packets" type="number" {...register('loosePackets')} />
               <Input label="MAWB number" {...register('mawbNumber')} />
               <Input label="HAWB number" {...register('hawbNumber')} />

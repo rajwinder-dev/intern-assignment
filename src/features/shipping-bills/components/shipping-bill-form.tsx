@@ -1,11 +1,11 @@
-import { routes } from '@/shared/route-paths'
+import { routes } from '@/routes/route-paths'
 import { Form } from 'core/form/components'
 import { navigate } from 'core/routing'
 import { Button } from 'ui/basic/button'
 import { Tabs, TabsList, TabsTrigger } from 'ui/interactive/tabs'
+import { useBillForm, type UseBillFormOptions } from '../use-bill-form'
 import { PersistentTab } from './layout'
 import { tabs } from './tabs'
-import { useBillForm, type UseBillFormOptions } from '../use-bill-form'
 import { WorkflowSteps } from './workflow-steps'
 
 interface ShippingBillFormProps extends UseBillFormOptions {

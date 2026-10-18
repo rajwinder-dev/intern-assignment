@@ -47,18 +47,19 @@ export const tabs: TabConfig[] = [
     id: 'documents',
     label: '3. Others',
     errorFields: othersTabFields,
-    validationFields: (values) => [
-      ...values.containers.map((_, index) => `containers.${index}.containerNumber`),
-      ...values.packingRanges.flatMap((_, index) => [
-        `packingRanges.${index}.packingNumberFrom`,
-        `packingRanges.${index}.packingNumberTo`
-      ]),
-      ...values.documents.flatMap((_, index) => [
-        `documents.${index}.documentTypeCode`,
-        `documents.${index}.documentReferenceNumber`
-      ]),
-      ...values.licenses.map((_, index) => `licenses.${index}.registrationNumber`)
-    ] as Path<ShippingBillFormValues>[],
+    validationFields: (values) =>
+      [
+        ...values.containers.map((_, index) => `containers.${index}.containerNumber`),
+        ...values.packingRanges.flatMap((_, index) => [
+          `packingRanges.${index}.packingNumberFrom`,
+          `packingRanges.${index}.packingNumberTo`
+        ]),
+        ...values.documents.flatMap((_, index) => [
+          `documents.${index}.documentTypeCode`,
+          `documents.${index}.documentReferenceNumber`
+        ]),
+        ...values.licenses.map((_, index) => `licenses.${index}.registrationNumber`)
+      ] as Path<ShippingBillFormValues>[],
     Content: OthersTab
   }
 ]

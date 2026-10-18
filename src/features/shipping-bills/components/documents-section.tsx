@@ -1,11 +1,11 @@
+import { lookupLists } from '@/constants/constants'
+import { useDocumentTypeLabel, useDocumentTypeOptions } from '@/hooks/lookup-hooks'
+import { emptyDocument } from '@/model/model'
+import type { BillDocument } from '@/types/types'
 import { useFieldArray } from 'core/form'
 import { Button } from 'ui/basic/button'
 import { Card, CardContent, CardHeader } from 'ui/basic/card'
 import { Input } from 'ui/inputs/input'
-import { emptyDocument } from '@/model/model'
-import { lookupLists } from '@/constants/constants'
-import { useDocumentTypeLabel, useDocumentTypeOptions } from '@/hooks/lookup-hooks'
-import type { BillDocument } from '@/types/types'
 import { AsyncSelect } from '../components/async-select'
 import { Advanced } from '../components/layout'
 import { BillSelect, dateType, type BillFormContext, type TabProps } from '../utils'
@@ -120,8 +120,14 @@ function DocumentItem({ formCtx, index, onRemove }: { formCtx: BillFormContext; 
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 <Input label="Beneficiary code" {...register(`documents.${index}.beneficiaryPartyCode`)} />
                 <Input label="Beneficiary name" {...register(`documents.${index}.beneficiaryPartyName`)} />
-                <Input label="Beneficiary address line 1" {...register(`documents.${index}.beneficiaryPartyAddress1`)} />
-                <Input label="Beneficiary address line 2" {...register(`documents.${index}.beneficiaryPartyAddress2`)} />
+                <Input
+                  label="Beneficiary address line 1"
+                  {...register(`documents.${index}.beneficiaryPartyAddress1`)}
+                />
+                <Input
+                  label="Beneficiary address line 2"
+                  {...register(`documents.${index}.beneficiaryPartyAddress2`)}
+                />
                 <Input label="Beneficiary city" {...register(`documents.${index}.beneficiaryPartyCity`)} />
                 <Input label="Beneficiary postal code" {...register(`documents.${index}.beneficiaryPartyPin`)} />
               </div>

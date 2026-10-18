@@ -8,9 +8,9 @@ import type { SavedBill, ShippingBillFormValues } from '@/types/types'
  * as defined in shipping_bill.http
  */
 export function toHttpShippingBillPayload(values: ShippingBillFormValues) {
-  const parseNum = (val: any) => (val != null && val !== '' ? Number(val) : undefined)
+  function parseNum(val: any)  (val != null && val !== '' ? Number(val) : undefined)
 
-  const parseDate = (dateStr?: string) => {
+  function parseDate(dateStr?: string)  {
     if (!dateStr) return undefined
     // Returns days since Unix Epoch (1970-01-01)
     return Math.floor(new Date(dateStr).getTime() / 86400000)
@@ -24,7 +24,7 @@ export function toHttpShippingBillPayload(values: ShippingBillFormValues) {
     GBP: 826,
     SGD: 702
   }
-  const parseCurrency = (c?: string) => c ? (CURRENCY_MAP[c] || parseNum(c) || 840) : 840
+  function parseCurrency(c?: string)  (c ? CURRENCY_MAP[c] || parseNum(c) || 840 : 840)
 
   return {
     chaId: 1000,
@@ -112,7 +112,7 @@ export type ShippingBillApiPayload = ReturnType<typeof toHttpShippingBillPayload
 
 export function normalizeApiBill(raw: any): SavedBill {
   if (!raw) return { id: 0, created: '', updated: '', values: emptyBill() }
-  const formatIsoString = (val: any) => {
+  function formatIsoString(val: any)  {
     if (!val) return new Date().toISOString()
     if (typeof val === 'number') {
       const ms = val < 10000000000 ? val * 1000 : val
@@ -131,7 +131,7 @@ export function normalizeApiBill(raw: any): SavedBill {
     } as SavedBill
   }
 
-  const formatEpochDays = (days?: any) => {
+  function formatEpochDays(days?: any)  {
     if (typeof days === 'number') {
       const d = new Date(days * 86400000)
       if (!isNaN(d.getTime())) return d.toISOString().split('T')[0]
@@ -168,65 +168,66 @@ export function normalizeApiBill(raw: any): SavedBill {
     loosePackets: raw.loosePackets ? String(raw.loosePackets) : '0',
     numberOfContainers: raw.numberOfContainers ? String(raw.numberOfContainers) : '0',
     containers: raw.containers || [],
-    invoices: Array.isArray(raw.invoices) && raw.invoices.length > 0
-      ? raw.invoices.map((inv: any, idx: number) => ({
-        invoiceNumber: inv.invoiceNumber || `INV-${idx + 1}`,
-        invoiceDate: formatEpochDays(inv.date || inv.invoiceDate) || new Date().toISOString().split('T')[0],
-        currency:
-          typeof inv.currency === 'number'
-            ? inv.currency === 840
-              ? 'USD'
-              : inv.currency === 356
-                ? 'INR'
-                : String(inv.currency)
-            : inv.currency || 'USD',
-        contractType: String(inv.contractType ?? '1'),
-        buyerId: String(inv.buyerId ?? ''),
-        buyerBranchId: String(inv.buyerAddressId ?? inv.buyerBranchId ?? ''),
-        buyerSameAsConsignee: inv.buyerId == null || String(inv.buyerId) === String(raw.consigneeId),
-        freightAmount: inv.freightAmount ? String(inv.freightAmount) : '',
-        insuranceAmount: inv.insuranceAmount ? String(inv.insuranceAmount) : '',
-        items:
-          Array.isArray(inv.items) && inv.items.length > 0
-            ? inv.items.map((item: any) => ({
-              schemeCode: item.schemeCode || '',
-              ritcCode: item.ritcCode || '',
-              goodsDescription1: item.goodsDescription || item.goodsDescription1 || '',
-              quantity: item.quantity ? String(item.quantity) : '',
-              unitOfMeasurement: item.unitOfMeasurement || 'PCS',
-              unitPrice: item.unitPrice ? String(item.unitPrice) : '',
-              unitOfRate: item.unitOfRate || item.unitOfMeasurement || 'PCS',
-              numberOfUnits: item.noOfUnits ? String(item.noOfUnits) : '1',
-              presentMarketValue: item.presentMarketValue ? String(item.presentMarketValue) : '',
-              thirdPartyItem: Boolean(item.thirdParty),
-              rewardItem: Boolean(item.rewardItem),
-              totalPackage: item.totalPackage ? String(item.totalPackage) : '',
-              endUseOfItem: item.endUseOfItem || '',
-              igstPaymentStatus: item.igstPaymentStatus ? String(item.igstPaymentStatus) : '2',
-              originDistrictCode: item.originDistrictCode ? String(item.originDistrictCode) : '',
-              tradeAgreementsCode: item.tradeAgreementsCode || '',
-              drawbackSerialNumber: item.drawbackSerialNumber || '',
-              drawbackQuantity: item.drawbackQuantity ? String(item.drawbackQuantity) : ''
-            }))
-            : []
-      }))
-      : [emptyInvoice()],
+    invoices:
+      Array.isArray(raw.invoices) && raw.invoices.length > 0
+        ? raw.invoices.map((inv: any, idx: number) => ({
+            invoiceNumber: inv.invoiceNumber || `INV-${idx + 1}`,
+            invoiceDate: formatEpochDays(inv.date || inv.invoiceDate) || new Date().toISOString().split('T')[0],
+            currency:
+              typeof inv.currency === 'number'
+                ? inv.currency === 840
+                  ? 'USD'
+                  : inv.currency === 356
+                    ? 'INR'
+                    : String(inv.currency)
+                : inv.currency || 'USD',
+            contractType: String(inv.contractType ?? '1'),
+            buyerId: String(inv.buyerId ?? ''),
+            buyerBranchId: String(inv.buyerAddressId ?? inv.buyerBranchId ?? ''),
+            buyerSameAsConsignee: inv.buyerId == null || String(inv.buyerId) === String(raw.consigneeId),
+            freightAmount: inv.freightAmount ? String(inv.freightAmount) : '',
+            insuranceAmount: inv.insuranceAmount ? String(inv.insuranceAmount) : '',
+            items:
+              Array.isArray(inv.items) && inv.items.length > 0
+                ? inv.items.map((item: any) => ({
+                    schemeCode: item.schemeCode || '',
+                    ritcCode: item.ritcCode || '',
+                    goodsDescription1: item.goodsDescription || item.goodsDescription1 || '',
+                    quantity: item.quantity ? String(item.quantity) : '',
+                    unitOfMeasurement: item.unitOfMeasurement || 'PCS',
+                    unitPrice: item.unitPrice ? String(item.unitPrice) : '',
+                    unitOfRate: item.unitOfRate || item.unitOfMeasurement || 'PCS',
+                    numberOfUnits: item.noOfUnits ? String(item.noOfUnits) : '1',
+                    presentMarketValue: item.presentMarketValue ? String(item.presentMarketValue) : '',
+                    thirdPartyItem: Boolean(item.thirdParty),
+                    rewardItem: Boolean(item.rewardItem),
+                    totalPackage: item.totalPackage ? String(item.totalPackage) : '',
+                    endUseOfItem: item.endUseOfItem || '',
+                    igstPaymentStatus: item.igstPaymentStatus ? String(item.igstPaymentStatus) : '2',
+                    originDistrictCode: item.originDistrictCode ? String(item.originDistrictCode) : '',
+                    tradeAgreementsCode: item.tradeAgreementsCode || '',
+                    drawbackSerialNumber: item.drawbackSerialNumber || '',
+                    drawbackQuantity: item.drawbackQuantity ? String(item.drawbackQuantity) : ''
+                  }))
+                : []
+          }))
+        : [emptyInvoice()],
     packingRanges: Array.isArray(raw.packgingList || raw.packingRanges)
       ? (raw.packgingList || raw.packingRanges).map((p: any) => ({
-        packingNumberFrom: String(p.packingNumberFrom ?? ''),
-        packingNumberTo: String(p.packingNumberTo ?? ''),
-        packingCode: p.packingCode || 'CTN'
-      }))
+          packingNumberFrom: String(p.packingNumberFrom ?? ''),
+          packingNumberTo: String(p.packingNumberTo ?? ''),
+          packingCode: p.packingCode || 'CTN'
+        }))
       : [],
     documents: Array.isArray(raw.documents)
       ? raw.documents.map((doc: any) => ({
-        invoiceSerialNumber: String(doc.invoiceSerialNumber ?? '1'),
-        itemSerialNumber: String(doc.itemSerialNumber ?? '1'),
-        imageReferenceNumber: doc.imageReferenceNumber || '',
-        documentTypeCode: doc.documentTypeCode || '',
-        documentIssueDate: formatEpochDays(doc.documentIssueDate) || new Date().toISOString().split('T')[0],
-        fileType: String(doc.fileType ?? '1')
-      }))
+          invoiceSerialNumber: String(doc.invoiceSerialNumber ?? '1'),
+          itemSerialNumber: String(doc.itemSerialNumber ?? '1'),
+          imageReferenceNumber: doc.imageReferenceNumber || '',
+          documentTypeCode: doc.documentTypeCode || '',
+          documentIssueDate: formatEpochDays(doc.documentIssueDate) || new Date().toISOString().split('T')[0],
+          fileType: String(doc.fileType ?? '1')
+        }))
       : []
   }
 
@@ -270,9 +271,7 @@ export function generateFlatFileContent(bill: SavedBill): string {
 
   if (v.invoices && v.invoices.length > 0) {
     lines.push(`<TABLE>INVOICE`)
-    lines.push(
-      `<F>INVOICE_SN^INVOICE_NO^INVOICE_DATE^CURRENCY^CONTRACT_TYPE^BUYER_ID^FREIGHT_AMOUNT^INSURANCE_AMOUNT`
-    )
+    lines.push(`<F>INVOICE_SN^INVOICE_NO^INVOICE_DATE^CURRENCY^CONTRACT_TYPE^BUYER_ID^FREIGHT_AMOUNT^INSURANCE_AMOUNT`)
     v.invoices.forEach((inv, idx) => {
       lines.push(
         `<R>${idx + 1}^${inv.invoiceNumber}^${inv.invoiceDate || ''}^${inv.currency || 'USD'}^${inv.contractType || '1'}^${inv.buyerId || v.consigneeId || ''}^${inv.freightAmount || 0}^${inv.insuranceAmount || 0}`
@@ -280,11 +279,9 @@ export function generateFlatFileContent(bill: SavedBill): string {
     })
 
     lines.push(`<TABLE>ITEM`)
-    lines.push(
-      `<F>INVOICE_SN^ITEM_SN^RITC_CODE^DESCRIPTION^QUANTITY^UOM^UNIT_PRICE^LINE_TOTAL^SCHEME_CODE`
-    )
+    lines.push(`<F>INVOICE_SN^ITEM_SN^RITC_CODE^DESCRIPTION^QUANTITY^UOM^UNIT_PRICE^LINE_TOTAL^SCHEME_CODE`)
     v.invoices.forEach((inv, invIdx) => {
-      ; (inv.items || []).forEach((item, itemIdx) => {
+      ;(inv.items || []).forEach((item, itemIdx) => {
         const total = (Number(item.quantity) || 0) * (Number(item.unitPrice) || 0)
         lines.push(
           `<R>${invIdx + 1}^${itemIdx + 1}^${item.ritcCode || ''}^${(item.goodsDescription1 || '').replace(/[\^\r\n]+/g, ' ')}^${item.quantity || ''}^${item.unitOfMeasurement || 'PCS'}^${item.unitPrice || ''}^${total.toFixed(2)}^${item.schemeCode || ''}`
@@ -317,7 +314,7 @@ function triggerBlobDownload(blob: Blob, filename: string) {
   setTimeout(() => window.URL.revokeObjectURL(url), 1000)
 }
 
-let internalBills: SavedBill[] = normalizeApiBills(API_SEED_SHIPPING_BILLS)
+const internalBills: SavedBill[] = normalizeApiBills(API_SEED_SHIPPING_BILLS)
 
 export const shippingBillApi = {
   /**
@@ -344,7 +341,6 @@ export const shippingBillApi = {
     getDemoData().bills.forEach((bill) => bills.set(bill.id, bill))
     return [...bills.values()]
   },
-
 
   /**
    * GET /api/shipping-bills/:id/flat-file
@@ -419,4 +415,3 @@ export const shippingBillApi = {
     }
   }
 }
-

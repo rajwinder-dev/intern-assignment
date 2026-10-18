@@ -1,8 +1,8 @@
-import { shippingBillApi } from '@/api/shipping-bill-api'
 import type { ShippingBillApiPayload } from '@/api/shipping-bill-api'
+import { shippingBillApi } from '@/api/shipping-bill-api'
+import { getDemoData, useDemoData } from '@/data/demo-store'
 import type { SavedBill } from '@/types/types'
 import { queryClient, useMutation, useQuery } from 'core/react-query'
-import { getDemoData, useDemoData } from '@/data/demo-store'
 
 export const shippingBillsQueryKey = ['shipping-bills'] as const
 

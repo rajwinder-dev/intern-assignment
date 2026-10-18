@@ -1,5 +1,5 @@
-import { Input } from 'ui/inputs/input'
 import { lookupLists } from '@/constants/constants'
+import { Input } from 'ui/inputs/input'
 import { BillSelect, hasValue, type BillFormContext } from '../utils'
 
 const { currencyOptions } = lookupLists
@@ -43,7 +43,11 @@ export function ChargeRow({ formCtx, invoiceIndex, name, label, currency }: Char
           disabled={hasValue(rate)}
           placeholder="Amount"
         />
-        <BillSelect name={`invoices.${invoiceIndex}.${name}Currency`} options={currencyOptions} placeholder={currency} />
+        <BillSelect
+          name={`invoices.${invoiceIndex}.${name}Currency`}
+          options={currencyOptions}
+          placeholder={currency}
+        />
       </div>
     </div>
   )

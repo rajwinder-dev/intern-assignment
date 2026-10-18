@@ -244,7 +244,6 @@ export interface SavedBill {
   payload?: ReturnType<typeof toShippingBillPayload>
 }
 
-
 type ElementOf<T> = NonNullable<T> extends readonly (infer U)[] ? U : never
 
 export type Invoice = ElementOf<ShippingBillFormValues['invoices']>
