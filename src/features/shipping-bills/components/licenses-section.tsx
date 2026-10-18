@@ -1,13 +1,9 @@
+import { goodsSources } from '@/data/goodsSources'
 import { useFieldArray } from 'core/form'
 import { Button } from 'ui/basic/button'
 import { Card, CardContent, CardHeader } from 'ui/basic/card'
 import { Input } from 'ui/inputs/input'
 import { BillSelect, dateType, type TabProps } from '../utils'
-
-const goodsSources = [
-  { value: 'I', label: 'Imported' },
-  { value: 'D', label: 'Indigenous' }
-]
 
 export function LicensesSection({ formCtx }: TabProps) {
   const { register, control } = formCtx.hooks

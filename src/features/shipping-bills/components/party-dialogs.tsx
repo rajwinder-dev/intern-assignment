@@ -10,32 +10,9 @@ import { Input } from 'ui/inputs/input'
 import { Select } from 'ui/inputs/select'
 import { Textarea } from 'ui/inputs/text-area'
 import { Dialog, DialogContent } from 'ui/interactive/dialog'
+import { PartyFields, partySchema } from '../schema'
 
 type Kind = 'exporter' | 'business'
-
-const partySchema = s.object({
-  name: s.string().minVal(2),
-  iec: s.string().optional(),
-  class: s.string().optional(),
-  type: s.string().optional(),
-  pan: s.string().optional(),
-  tan: s.string().optional(),
-  aeoNumber: s.string().optional(),
-  website: s.string().optional(),
-  notes: s.string().optional(),
-  isConsignee: s.boolean().optional(),
-  isBuyer: s.boolean().optional(),
-  isNotify: s.boolean().optional(),
-  isThirdParty: s.boolean().optional(),
-  branchName: s.string().optional(),
-  address1: s.string().optional(),
-  city: s.string().optional(),
-  state: s.string().optional(),
-  pincode: s.string().optional(),
-  countryCode: s.string()
-})
-
-type PartyFields = InferType<typeof partySchema>
 
 interface PartyDialogProps {
   kind: Kind

@@ -1,21 +1,10 @@
+import { containerSealTypes, containerSizes } from '@/data/seal'
 import { useFieldArray } from 'core/form'
 import { Button } from 'ui/basic/button'
 import { Card, CardContent, CardHeader } from 'ui/basic/card'
 import { Input } from 'ui/inputs/input'
 import { Advanced, SectionHeading } from '../components/layout'
 import { BillSelect, dateType, type TabProps } from '../utils'
-
-const containerSizes = [
-  { value: '20', label: '20 ft' },
-  { value: '40', label: '40 ft' },
-  { value: '45', label: '45 ft' }
-]
-
-const containerSealTypes = [
-  { value: 1, label: 'BTSL - Bottle Seal' },
-  { value: 2, label: 'ESEAL - Electronic Seal' },
-  { value: 3, label: 'RFID - Radio Frequency Identifier' }
-]
 
 /** Containers and packing-list ranges. */
 export function CargoSection({ formCtx }: TabProps) {

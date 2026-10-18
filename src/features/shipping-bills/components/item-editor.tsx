@@ -1,4 +1,5 @@
 import { lookupLists } from '@/constants/constants'
+import { accessoryStatuses, igstStatuses } from '@/data/statuses'
 import { emptyItem, lineTotal } from '@/model/model'
 import { Button } from 'ui/basic/button'
 import { Checkbox } from 'ui/inputs/checkbox'
@@ -8,18 +9,6 @@ import { PartyFields } from '../components/party-fields'
 import { BillSelect, dateType, formatMoney, type BillFormContext } from '../utils'
 
 const { quantityCodes, schemeCodes, trades } = lookupLists
-
-const igstStatuses = [
-  { value: 'NA', label: 'Not applicable' },
-  { value: 'LUT', label: 'Under LUT / bond' },
-  { value: 'P', label: 'Against payment' }
-]
-
-const accessoryStatuses = [
-  { value: '0', label: 'No accessory' },
-  { value: '1', label: 'Included free of cost' },
-  { value: '2', label: 'Entered separately' }
-]
 
 interface ItemEditorProps {
   formCtx: BillFormContext

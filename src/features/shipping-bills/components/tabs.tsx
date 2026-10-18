@@ -8,7 +8,6 @@ import { OthersTab, othersTabFields } from './others-tab'
 interface TabConfig {
   id: string
   label: string
-  /** Validation errors on any of these fields send the user to this tab. */
   errorFields: readonly (keyof ShippingBillFormValues)[]
   validationFields: (values: ShippingBillFormValues) => Path<ShippingBillFormValues>[]
   Content: (props: TabProps) => React.ReactNode

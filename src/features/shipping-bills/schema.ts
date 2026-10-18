@@ -7,7 +7,7 @@ import type {
   PackingRange,
   ShippingBillFormValues
 } from '@/types/types'
-import { s } from 'core/form'
+import { InferType, s } from 'core/form'
 
 // Every key below must exist on the root form or on one of its nested rows.
 // A typo or a renamed field in model.ts becomes a compile error here.
@@ -75,3 +75,27 @@ const fieldRules = {
 } satisfies Partial<Record<FieldName, unknown>>
 
 export const billSchema = s.object(fieldRules)
+
+export const partySchema = s.object({
+  name: s.string().minVal(2),
+  iec: s.string().optional(),
+  class: s.string().optional(),
+  type: s.string().optional(),
+  pan: s.string().optional(),
+  tan: s.string().optional(),
+  aeoNumber: s.string().optional(),
+  website: s.string().optional(),
+  notes: s.string().optional(),
+  isConsignee: s.boolean().optional(),
+  isBuyer: s.boolean().optional(),
+  isNotify: s.boolean().optional(),
+  isThirdParty: s.boolean().optional(),
+  branchName: s.string().optional(),
+  address1: s.string().optional(),
+  city: s.string().optional(),
+  state: s.string().optional(),
+  pincode: s.string().optional(),
+  countryCode: s.string()
+})
+
+export type PartyFields = InferType<typeof partySchema>

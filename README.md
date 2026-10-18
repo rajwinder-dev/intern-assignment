@@ -37,11 +37,10 @@ Application code lives in `src/` and is grouped by responsibility:
 ```text
 src/
 ├── api/                 # Promise-based mock services and payload mapping
-├── constants/           # Shared form and lookup constants
 ├── data/                # Demo fixtures and local demo store
 ├── features/
 │   ├── dashboard/       # Shipping bill list page
-│   └── shipping-bills/  # Form workflow, schema, and TSX components
+│   └── shipping-bills/  # Form workflow, feature constants, schema, and components
 ├── hooks/               # React Query hooks and cache invalidation
 ├── model/               # Form defaults and domain transformations
 ├── layout/              # App layout
@@ -80,9 +79,12 @@ The refactor keeps the existing React, TypeScript, React Query, and form archite
 
 AI tools assisted with codebase inspection, refactoring, and this README. The resulting changes were reviewed and checked with TypeScript.
 
-## Decisions and improvements
+## Decisions and trade-offs
 
-- Create and edit bills use the same form schema. If business requirements differ, the schema can be adjusted dynamically in `useBillForm`.
-- The core library and project structure are unchanged; only the shipping-bill feature was refactored.
-- Prefer a modular feature-based approach to reduce coupling.
-- Some types are missing exports from the core library.
+- Create and edit bills share one schema and form flow. If business rules diverge, the schema can be selected or composed based on the form mode.
+- Shipping-bill-specific lookup data and UI option lists live in the feature's `constants.ts`; generic reference data and the core form library stay outside the feature.
+- The implementation favors smaller feature components to keep form sections and business concerns easier to change independently.
+- The core form wrapper exposes a limited set of React Hook Form types. The feature imports types such as `Path` and `RegisterOptions` directly from `ui/form` where needed.
+- The bill model gives root fields and nested rows explicit TypeScript types. Field names passed to form controls use React Hook Form's `Path<ShippingBillFormValues>`, and repeatable sections use `useFieldArray` for invoices, items, containers, documents, licenses, and packing ranges.
+- Nested array paths are not perfectly type-safe. Paths built dynamically from array indexes in validation configuration are cast to `Path<ShippingBillFormValues>`
+- The core library itself was left unchanged. Improving its nested schema/path typing would be a separate shared-library change.
