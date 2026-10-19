@@ -24,7 +24,8 @@ const config = {
   plugins: [react()],
   envPrefix: ['VITE_', 'PUBLIC_'],
   resolve: {
-    alias: [...packageAlias]
+    alias: [...packageAlias],
+    dedupe: ['react', 'react-dom']
   }
 }
 

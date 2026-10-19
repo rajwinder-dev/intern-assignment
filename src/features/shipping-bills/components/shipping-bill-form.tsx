@@ -41,6 +41,10 @@ export function ShippingBillForm({ title, ...options }: ShippingBillFormProps) {
                 key={tab.id}
                 value={tab.id}
                 aria-invalid={tab.errorFields.some((field) => Boolean(errors[field]))}>
+   
+
+
+
                 {tab.label}
               </TabsTrigger>
             ))}
