@@ -84,7 +84,7 @@ AI tools assisted with codebase inspection, refactoring, and this README. The re
 - Create and edit bills share one schema and form flow. If business rules diverge, the schema can be selected or composed based on the form mode.
 - Shipping-bill-specific lookup data and UI option lists live in the feature's `constants.ts`; generic reference data and the core form library stay outside the feature.
 - The implementation favors smaller feature components to keep form sections and business concerns easier to change independently.
-- The core form wrapper exposes a limited set of React Hook Form types. The feature imports types such as `Path` and `RegisterOptions` directly from `ui/form` where needed.
 - The bill model gives root fields and nested rows explicit TypeScript types. Field names passed to form controls use React Hook Form's `Path<ShippingBillFormValues>`, and repeatable sections use `useFieldArray` for invoices, items, containers, documents, licenses, and packing ranges.
 - Nested array paths are not perfectly type-safe. Paths built dynamically from array indexes in validation configuration are cast to `Path<ShippingBillFormValues>`.
 - The core library itself was left unchanged. Improving its nested schema/path typing would be a separate shared-library change.
+- React query to cache data to reduce api calls and improve performance. The query is invalidated when the form is submitted.
