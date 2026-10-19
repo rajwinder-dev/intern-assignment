@@ -4,7 +4,7 @@ import { emptyItem, lineTotal } from '@/model/model'
 import { Button } from 'ui/basic/button'
 import { Checkbox } from 'ui/inputs/checkbox'
 import { Input } from 'ui/inputs/input'
-import { Advanced } from '../components/layout'
+import { Advanced } from './ui/advanced'
 import { PartyFields } from '../components/party-fields'
 import { BillSelect, dateType, formatMoney, type BillFormContext } from '../utils'
 

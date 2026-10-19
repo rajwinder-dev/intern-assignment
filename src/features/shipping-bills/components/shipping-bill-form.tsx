@@ -5,9 +5,9 @@ import { Button } from 'ui/basic/button'
 import { Tabs, TabsList, TabsTrigger } from 'ui/interactive/tabs'
 import { useFormState } from 'react-hook-form'
 import { useBillForm, type UseBillFormOptions } from '../use-bill-form'
-import { PersistentTab } from './layout'
+import { PersistentTab } from './ui/persistent-tab'
 import { tabs } from './tabs'
-import { WorkflowSteps } from './workflow-steps'
+import { WorkflowSteps } from './ui/workflow-steps'
 
 interface ShippingBillFormProps extends UseBillFormOptions {
   title: string

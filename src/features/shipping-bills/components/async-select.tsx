@@ -4,8 +4,8 @@ import { useState } from 'react'
 import type { RegisterOptions } from 'ui/form'
 import { getFormContext, getNestedSchema, useController } from 'ui/form'
 import { Popover, PopoverContent, PopoverTrigger } from 'ui/interactive/popover'
-import { PopoverContext } from 'ui/interactive/popover-context'
-import { clsx, getContext } from 'ui/utils'
+import { clsx } from 'ui/utils'
+import { AsyncSelectOption } from './ui/async-select-option'
 
 interface AsyncSelectProps {
   name: string
@@ -91,7 +91,7 @@ export function AsyncSelect({
               <div className="p-3 text-center text-xs text-gray-400">No matching results found</div>
             ) : (
               options.map((option) => (
-                <OptionItem
+                <AsyncSelectOption
                   key={option.value}
                   label={option.label}
                   sublabel={option.sublabel}
@@ -108,35 +108,6 @@ export function AsyncSelect({
           {fieldState.error.message}
         </p>
       )}
-    </div>
-  )
-}
-
-function OptionItem({
-  label,
-  sublabel,
-  selected,
-  onSelect
-}: {
-  label: string
-  sublabel?: string
-  selected: boolean
-  onSelect: () => void
-}) {
-  const { setOpen } = getContext(PopoverContext)
-
-  return (
-    <div
-      onClick={() => {
-        onSelect()
-        setOpen(false)
-      }}
-      className={clsx(
-        'flex cursor-pointer flex-col rounded p-2 text-sm transition-colors',
-        selected ? 'bg-primary-50 text-primary-900 font-semibold' : 'text-gray-950 hover:bg-gray-100'
-      )}>
-      <span>{label}</span>
-      {sublabel && <span className="text-xs text-gray-500">{sublabel}</span>}
     </div>
   )
 }

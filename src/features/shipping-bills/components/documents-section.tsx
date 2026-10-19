@@ -7,7 +7,7 @@ import { Button } from 'ui/basic/button'
 import { Card, CardContent, CardHeader } from 'ui/basic/card'
 import { Input } from 'ui/inputs/input'
 import { AsyncSelect } from '../components/async-select'
-import { Advanced } from '../components/layout'
+import { Advanced } from './ui/advanced'
 import { BillSelect, dateType, type BillFormContext, type TabProps } from '../utils'
 
 const { fileTypeOptions } = lookupLists

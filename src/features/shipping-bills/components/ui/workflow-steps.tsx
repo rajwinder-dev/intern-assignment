@@ -1,5 +1,5 @@
 import { clsx } from 'ui/utils'
-import { workflowSteps } from '../workflow'
+import { workflowSteps } from '../../workflow'
 
 export function WorkflowSteps() {
   return (

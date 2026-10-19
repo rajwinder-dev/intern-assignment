@@ -86,5 +86,5 @@ AI tools assisted with codebase inspection, refactoring, and this README. The re
 - The implementation favors smaller feature components to keep form sections and business concerns easier to change independently.
 - The core form wrapper exposes a limited set of React Hook Form types. The feature imports types such as `Path` and `RegisterOptions` directly from `ui/form` where needed.
 - The bill model gives root fields and nested rows explicit TypeScript types. Field names passed to form controls use React Hook Form's `Path<ShippingBillFormValues>`, and repeatable sections use `useFieldArray` for invoices, items, containers, documents, licenses, and packing ranges.
-- Nested array paths are not perfectly type-safe. Paths built dynamically from array indexes in validation configuration are cast to `Path<ShippingBillFormValues>`
+- Nested array paths are not perfectly type-safe. Paths built dynamically from array indexes in validation configuration are cast to `Path<ShippingBillFormValues>`.
 - The core library itself was left unchanged. Improving its nested schema/path typing would be a separate shared-library change.
